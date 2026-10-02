@@ -53,6 +53,7 @@ const botProtectionSchema = z.object({
   AliyunCaptchaAccessKeyId: z.string().optional(),
   AliyunCaptchaAccessKeySecret: z.string().optional(),
   AliyunCaptchaRegion: z.string().optional(),
+  AliyunCaptchaPrefix: z.string().optional(),
 })
 
 type BotProtectionFormValues = z.infer<typeof botProtectionSchema>

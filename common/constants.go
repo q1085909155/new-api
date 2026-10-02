@@ -124,6 +124,7 @@ var AliyunCaptchaSceneId = ""
 var AliyunCaptchaAccessKeyId = ""
 var AliyunCaptchaAccessKeySecret = ""
 var AliyunCaptchaRegion = "cn"
+var AliyunCaptchaPrefix = ""
 
 var TelegramBotToken = ""
 var TelegramBotName = ""

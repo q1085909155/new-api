@@ -10,6 +10,7 @@ declare global {
 interface AliyunCaptchaProps {
   sceneId: string
   region?: string
+  prefix?: string
   onVerify: (token: string) => void
   className?: string
 }
@@ -17,6 +18,7 @@ interface AliyunCaptchaProps {
 export function AliyunCaptcha({
   sceneId,
   region = 'cn',
+  prefix = '',
   onVerify,
   className,
 }: AliyunCaptchaProps) {
@@ -27,7 +29,7 @@ export function AliyunCaptcha({
 
     window.AliyunCaptchaConfig = {
       region: region || 'cn',
-      prefix: '',
+      prefix: prefix || '',
     }
 
     const init = () => {
@@ -67,7 +69,7 @@ export function AliyunCaptcha({
     s.defer = true
     s.onload = () => init()
     document.head.appendChild(s)
-  }, [sceneId, region, onVerify])
+  }, [sceneId, region, prefix, onVerify])
 
   return (
     <div className={className}>

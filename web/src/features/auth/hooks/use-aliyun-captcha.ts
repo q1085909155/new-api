@@ -16,6 +16,7 @@ export function useAliyunCaptcha() {
   )
   const aliyunSceneId = status?.aliyun_captcha_scene_id || ''
   const aliyunRegion = status?.aliyun_captcha_region || 'cn'
+  const aliyunPrefix = status?.aliyun_captcha_prefix || ''
 
   const validateAliyunCaptcha = (): boolean => {
     if (isAliyunCaptchaEnabled && !aliyunCaptchaToken) {
@@ -33,6 +34,7 @@ export function useAliyunCaptcha() {
     isAliyunCaptchaEnabled,
     aliyunSceneId,
     aliyunRegion,
+    aliyunPrefix,
     aliyunCaptchaToken,
     setAliyunCaptchaToken,
     validateAliyunCaptcha,

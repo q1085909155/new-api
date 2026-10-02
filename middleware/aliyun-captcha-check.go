@@ -106,7 +106,7 @@ func verifyAliyunCaptcha(captchaVerifyParam, sceneId, ak, sk, region string) (bo
 
 func AliyunCaptchaCheck() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if common.AliyunCaptchaCheckEnabled {
+		if common.AliyunCaptchaCheckEnabled && common.AliyunCaptchaSceneId != "" {
 			captchaVerifyParam := c.Query("aliyun_captcha")
 			if captchaVerifyParam == "" {
 				captchaVerifyParam = c.GetHeader("X-Aliyun-Captcha")

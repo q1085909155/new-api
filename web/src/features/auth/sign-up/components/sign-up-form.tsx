@@ -83,6 +83,7 @@ export function SignUpForm({
     isAliyunCaptchaEnabled,
     aliyunSceneId,
     aliyunRegion,
+    aliyunPrefix,
     aliyunCaptchaToken,
     setAliyunCaptchaToken,
     validateAliyunCaptcha,
@@ -379,6 +380,7 @@ export function SignUpForm({
             <AliyunCaptcha
               sceneId={aliyunSceneId}
               region={aliyunRegion}
+              prefix={aliyunPrefix}
               onVerify={setAliyunCaptchaToken}
             />
           </div>

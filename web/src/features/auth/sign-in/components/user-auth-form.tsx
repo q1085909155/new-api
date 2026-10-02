@@ -108,6 +108,7 @@ export function UserAuthForm({
     isAliyunCaptchaEnabled,
     aliyunSceneId,
     aliyunRegion,
+    aliyunPrefix,
     aliyunCaptchaToken,
     setAliyunCaptchaToken,
     validateAliyunCaptcha,
@@ -440,6 +441,7 @@ export function UserAuthForm({
                 <AliyunCaptcha
                   sceneId={aliyunSceneId}
                   region={aliyunRegion}
+                  prefix={aliyunPrefix}
                   onVerify={setAliyunCaptchaToken}
                 />
               </div>
