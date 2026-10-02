@@ -112,7 +112,7 @@ export function UserAuthForm({
     aliyunCaptchaToken,
     setAliyunCaptchaToken,
     validateAliyunCaptcha,
-  } = useAliyunCaptcha()
+  } = useAliyunCaptcha('login')
   const { handleLoginResult } = useAuthRedirect()
 
   const hasUserAgreement = Boolean(status?.user_agreement_enabled)

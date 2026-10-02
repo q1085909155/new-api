@@ -87,7 +87,7 @@ export function SignUpForm({
     aliyunCaptchaToken,
     setAliyunCaptchaToken,
     validateAliyunCaptcha,
-  } = useAliyunCaptcha()
+  } = useAliyunCaptcha('register')
   const { redirectToLogin, handleLoginResult } = useAuthRedirect()
   const {
     isSending: isSendingCode,

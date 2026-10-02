@@ -146,6 +146,8 @@ func InitOptionMap() {
 	common.OptionMap["AliyunCaptchaAccessKeySecret"] = ""
 	common.OptionMap["AliyunCaptchaRegion"] = "cn"
 	common.OptionMap["AliyunCaptchaPrefix"] = ""
+	common.OptionMap["AliyunCaptchaRegisterSceneId"] = ""
+	common.OptionMap["AliyunCaptchaLoginSceneId"] = ""
 	common.OptionMap["QuotaForNewUser"] = strconv.Itoa(common.QuotaForNewUser)
 	common.OptionMap["QuotaForInviter"] = strconv.Itoa(common.QuotaForInviter)
 	common.OptionMap["QuotaForInvitee"] = strconv.Itoa(common.QuotaForInvitee)
@@ -623,6 +625,10 @@ func updateOptionMap(key string, value string) (err error) {
 		common.AliyunCaptchaRegion = value
 	case "AliyunCaptchaPrefix":
 		common.AliyunCaptchaPrefix = value
+	case "AliyunCaptchaRegisterSceneId":
+		common.AliyunCaptchaRegisterSceneId = value
+	case "AliyunCaptchaLoginSceneId":
+		common.AliyunCaptchaLoginSceneId = value
 	case "QuotaForNewUser":
 		common.QuotaForNewUser, _ = strconv.Atoi(value)
 	case "QuotaForInviter":

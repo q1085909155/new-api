@@ -106,7 +106,14 @@ func verifyAliyunCaptcha(captchaVerifyParam, sceneId, ak, sk, region string) (bo
 
 func AliyunCaptchaCheck() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if common.AliyunCaptchaCheckEnabled && common.AliyunCaptchaSceneId != "" {
+		targetSceneId := common.AliyunCaptchaSceneId
+		if strings.Contains(c.Request.URL.Path, "login") && common.AliyunCaptchaLoginSceneId != "" {
+			targetSceneId = common.AliyunCaptchaLoginSceneId
+		} else if strings.Contains(c.Request.URL.Path, "register") && common.AliyunCaptchaRegisterSceneId != "" {
+			targetSceneId = common.AliyunCaptchaRegisterSceneId
+		}
+
+		if common.AliyunCaptchaCheckEnabled && targetSceneId != "" {
 			captchaVerifyParam := c.Query("aliyun_captcha")
 			if captchaVerifyParam == "" {
 				captchaVerifyParam = c.GetHeader("X-Aliyun-Captcha")
@@ -136,7 +143,7 @@ func AliyunCaptchaCheck() gin.HandlerFunc {
 
 			ok, err := verifyAliyunCaptcha(
 				captchaVerifyParam,
-				common.AliyunCaptchaSceneId,
+				targetSceneId,
 				common.AliyunCaptchaAccessKeyId,
 				common.AliyunCaptchaAccessKeySecret,
 				common.AliyunCaptchaRegion,

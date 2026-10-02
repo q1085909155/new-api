@@ -50,6 +50,8 @@ const botProtectionSchema = z.object({
 
   AliyunCaptchaCheckEnabled: z.boolean(),
   AliyunCaptchaSceneId: z.string().optional(),
+  AliyunCaptchaRegisterSceneId: z.string().optional(),
+  AliyunCaptchaLoginSceneId: z.string().optional(),
   AliyunCaptchaAccessKeyId: z.string().optional(),
   AliyunCaptchaAccessKeySecret: z.string().optional(),
   AliyunCaptchaRegion: z.string().optional(),
@@ -186,6 +188,45 @@ export function BotProtectionSection({
                     />
                   </FormControl>
                 </SettingsSwitchItem>
+              )}
+            />
+
+            <FormField
+            <FormField
+              control={form.control}
+              name='AliyunCaptchaLoginSceneId'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('Login Scene ID', '登录场景 ID (Login SceneId)')}</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={t(
+                        'Your Aliyun Captcha Login SceneId',
+                        '登录接口专用的场景 ID（如 1qi0r8ni）'
+                      )}
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='AliyunCaptchaRegisterSceneId'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('Register Scene ID', '注册场景 ID (Register SceneId)')}</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={t(
+                        'Your Aliyun Captcha Register SceneId',
+                        '注册接口专用的场景 ID（如 1nva0lc1）'
+                      )}
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
               )}
             />
 
