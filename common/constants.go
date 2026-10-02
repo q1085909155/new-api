@@ -68,6 +68,7 @@ var LinuxDOOAuthEnabled = false
 var WeChatAuthEnabled = false
 var TelegramOAuthEnabled = false
 var TurnstileCheckEnabled = false
+var AliyunCaptchaCheckEnabled = false
 var RegisterEnabled = true
 
 var EmailDomainRestrictionEnabled = false // 是否启用邮箱域名限制
@@ -118,6 +119,11 @@ var WeChatAccountQRCodeImageURL = ""
 
 var TurnstileSiteKey = ""
 var TurnstileSecretKey = ""
+
+var AliyunCaptchaSceneId = ""
+var AliyunCaptchaAccessKeyId = ""
+var AliyunCaptchaAccessKeySecret = ""
+var AliyunCaptchaRegion = "cn"
 
 var TelegramBotToken = ""
 var TelegramBotName = ""

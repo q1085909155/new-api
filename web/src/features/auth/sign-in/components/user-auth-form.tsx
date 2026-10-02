@@ -28,6 +28,7 @@ import type { z } from 'zod'
 import { Dialog } from '@/components/dialog'
 import { PasswordInput } from '@/components/password-input'
 import { Turnstile } from '@/components/turnstile'
+import { AliyunCaptcha } from '@/components/aliyun-captcha'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -45,6 +46,7 @@ import { OAuthProviders } from '@/features/auth/components/oauth-providers'
 import { loginFormSchema } from '@/features/auth/constants'
 import { useAuthRedirect } from '@/features/auth/hooks/use-auth-redirect'
 import { useTurnstile } from '@/features/auth/hooks/use-turnstile'
+import { useAliyunCaptcha } from '@/features/auth/hooks/use-aliyun-captcha'
 import { beginPasskeyLogin, finishPasskeyLogin } from '@/features/auth/passkey'
 import {
   requestPasskeyAssertion,
@@ -102,6 +104,14 @@ export function UserAuthForm({
     setTurnstileToken,
     validateTurnstile,
   } = useTurnstile()
+  const {
+    isAliyunCaptchaEnabled,
+    aliyunSceneId,
+    aliyunRegion,
+    aliyunCaptchaToken,
+    setAliyunCaptchaToken,
+    validateAliyunCaptcha,
+  } = useAliyunCaptcha()
   const { handleLoginResult } = useAuthRedirect()
 
   const hasUserAgreement = Boolean(status?.user_agreement_enabled)
@@ -166,6 +176,12 @@ export function UserAuthForm({
     }
 
     if (!validateTurnstile()) return
+    if (!validateAliyunCaptcha()) return
+
+    const submittedAliyunToken = aliyunCaptchaToken
+    if (isAliyunCaptchaEnabled) {
+      setAliyunCaptchaToken("")
+    }
 
     const submittedTurnstileToken = turnstileToken
     if (isTurnstileEnabled) {
@@ -179,6 +195,7 @@ export function UserAuthForm({
         username: data.username,
         password: data.password,
         turnstile: submittedTurnstileToken,
+        submittedAliyunToken,
         passwordEncryptionEnabled: passwordLoginEncryptionEnabled,
       })
 
@@ -413,6 +430,17 @@ export function UserAuthForm({
                   siteKey={turnstileSiteKey}
                   onVerify={setTurnstileToken}
                   onExpire={() => setTurnstileToken('')}
+                />
+              </div>
+            )}
+
+            {/* 阿里云验证码 */}
+            {isAliyunCaptchaEnabled && (
+              <div className='mt-2'>
+                <AliyunCaptcha
+                  sceneId={aliyunSceneId}
+                  region={aliyunRegion}
+                  onVerify={setAliyunCaptchaToken}
                 />
               </div>
             )}

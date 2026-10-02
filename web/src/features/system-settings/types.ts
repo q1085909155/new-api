@@ -195,6 +195,11 @@ export type AuthSettings = {
   TurnstileCheckEnabled: boolean
   TurnstileSiteKey: string
   TurnstileSecretKey: string
+  AliyunCaptchaCheckEnabled: boolean
+  AliyunCaptchaSceneId: string
+  AliyunCaptchaAccessKeyId: string
+  AliyunCaptchaAccessKeySecret: string
+  AliyunCaptchaRegion: string
   'passkey.enabled': boolean
   'passkey.rp_display_name': string
   'passkey.rp_id': string

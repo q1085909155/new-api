@@ -1,3 +1,11 @@
+function getCacheHitRateColor(rate: number): string {
+  if (rate >= 80) return "text-emerald-600 dark:text-emerald-400 font-semibold"
+  if (rate >= 50) return "text-teal-600 dark:text-teal-400 font-semibold"
+  if (rate >= 20) return "text-amber-600 dark:text-amber-400 font-medium"
+  if (rate > 0) return "text-orange-500 dark:text-orange-400 font-medium"
+  return "text-muted-foreground/50"
+}
+
 /*
 Copyright (C) 2023-2026 QuantumNous
 
@@ -737,6 +745,9 @@ export function useCommonLogsColumns(
             ? cacheWrite5m + cacheWrite1h
             : other?.cache_creation_tokens || 0
 
+          const totalPrompt = promptTokens >= cacheReadTokens ? promptTokens : (promptTokens + cacheReadTokens)
+          const hitRate = totalPrompt > 0 ? (cacheReadTokens / totalPrompt) * 100 : 0
+
           return (
             <div className='flex flex-col gap-0.5'>
               <span className='font-mono text-xs font-medium tabular-nums'>
@@ -744,15 +755,20 @@ export function useCommonLogsColumns(
                 {completionTokens.toLocaleString()}
               </span>
               {(cacheReadTokens > 0 || cacheWriteTokens > 0) && (
-                <div className='flex items-center gap-1 text-[11px]'>
+                <div className='flex items-center gap-1.5 font-mono text-[11px]'>
                   {cacheReadTokens > 0 && (
-                    <span className='text-muted-foreground/60'>
-                      {t('Cache')}↓ {cacheReadTokens.toLocaleString()}
+                    <span className={getCacheHitRateColor(hitRate)}>
+                      {hitRate.toFixed(2)}%
+                    </span>
+                  )}
+                  {cacheReadTokens > 0 && (
+                    <span className='text-muted-foreground/60 text-[10px]'>
+                      ↓{cacheReadTokens.toLocaleString()}
                     </span>
                   )}
                   {cacheWriteTokens > 0 && (
-                    <span className='text-muted-foreground/60'>
-                      ↑ {cacheWriteTokens.toLocaleString()}
+                    <span className='text-muted-foreground/60 text-[10px]'>
+                      ↑{cacheWriteTokens.toLocaleString()}
                     </span>
                   )}
                 </div>
@@ -760,6 +776,43 @@ export function useCommonLogsColumns(
             </div>
           )
         },
+      },
+      {
+        id: 'cache_hit_rate',
+        header: t('Cache Hit Rate', '缓存命中率'),
+        cell: ({ row }) => {
+          const log = row.original
+          if (!isDisplayableLogType(log.type)) return null
+
+          const other = parseLogOther(log.other)
+          const promptTokens = log.prompt_tokens || 0
+          const cacheReadTokens = other?.cache_tokens || 0
+          const cacheWrite5m = other?.cache_creation_tokens_5m || 0
+          const cacheWrite1h = other?.cache_creation_tokens_1h || 0
+          const cacheWriteTokens = (cacheWrite5m + cacheWrite1h) || other?.cache_creation_tokens || 0
+
+          if (cacheReadTokens === 0 && cacheWriteTokens === 0 && promptTokens === 0) {
+            return <span className='text-muted-foreground/40 text-xs font-mono'>-</span>
+          }
+
+          const totalPrompt = promptTokens >= cacheReadTokens ? promptTokens : (promptTokens + cacheReadTokens)
+          const hitRate = totalPrompt > 0 ? (cacheReadTokens / totalPrompt) * 100 : 0
+
+          return (
+            <div className='flex flex-col gap-0.5 font-mono text-xs'>
+              <span className={getCacheHitRateColor(hitRate)}>
+                {hitRate.toFixed(2)}%
+              </span>
+              {(cacheReadTokens > 0 || cacheWriteTokens > 0) && (
+                <span className='text-[10px] text-muted-foreground/60 tabular-nums'>
+                  {cacheReadTokens > 0 ? `↓${cacheReadTokens.toLocaleString()}` : ''}
+                  {cacheWriteTokens > 0 ? ` ↑${cacheWriteTokens.toLocaleString()}` : ''}
+                </span>
+              )}
+            </div>
+          )
+        },
+        meta: { label: t('Cache Hit Rate', '缓存命中率') },
       },
       {
         accessorKey: 'quota',
