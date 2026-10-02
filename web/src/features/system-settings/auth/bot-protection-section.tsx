@@ -192,7 +192,6 @@ export function BotProtectionSection({
             />
 
             <FormField
-            <FormField
               control={form.control}
               name='AliyunCaptchaLoginSceneId'
               render={({ field }) => (
