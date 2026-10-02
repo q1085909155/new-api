@@ -78,6 +78,7 @@ import {
   isViolationFeeLog,
   getFirstResponseTimeColor,
   getResponseTimeColor,
+  getCacheHitRateColor,
   getReasoningEffortVariant,
   renderAuditContent,
 } from '../../lib/format'
@@ -384,7 +385,10 @@ function TokenBreakdown(props: { log: UsageLog; other: LogOtherData }) {
 
   if (!hasTokens) return null
 
-  const rows: Array<{ label: string; value: string }> = []
+  const totalPrompt = promptTokens >= cacheRead ? promptTokens : (promptTokens + cacheRead)
+  const hitRate = totalPrompt > 0 ? (cacheRead / totalPrompt) * 100 : 0
+
+  const rows: Array<{ label: string; value: React.ReactNode }> = []
 
   rows.push({ label: t('Input Tokens'), value: promptTokens.toLocaleString() })
   rows.push({
@@ -398,6 +402,15 @@ function TokenBreakdown(props: { log: UsageLog; other: LogOtherData }) {
       value: cacheRead.toLocaleString(),
     })
   }
+
+  rows.push({
+    label: t('Cache Hit Rate', '缓存命中率'),
+    value: (
+      <span className={cn('font-mono font-medium', getCacheHitRateColor(hitRate))}>
+        {hitRate.toFixed(3)}%
+      </span>
+    ),
+  })
 
   if (other.image_cache_tokens !== undefined) {
     rows.push({

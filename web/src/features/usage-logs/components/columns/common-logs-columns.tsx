@@ -52,18 +52,13 @@ import { formatBillingCurrencyFromUSD } from '@/lib/currency'
 import { formatLogQuota, formatTimestampToDate } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
-function getCacheHitRateColor(rate: number): string {
-  if (rate >= 60) return 'text-success'
-  if (rate >= 20) return 'text-warning'
-  if (rate > 0) return 'text-destructive'
-  return 'text-muted-foreground'
-}
 import { useSystemConfigStore } from '@/stores/system-config-store'
 
 import { LOG_TYPE_ALL_VALUE } from '../../constants'
 import type { UsageLog } from '../../data/schema'
 import {
   formatModelName,
+  getCacheHitRateColor,
   decodeBillingExprB64,
   getTieredBillingSummary,
   hasAnyCacheTokens,

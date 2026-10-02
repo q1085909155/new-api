@@ -224,6 +224,13 @@ export function getThroughputColor(
 /**
  * Get response color using throughput only when enough output tokens exist.
  */
+export function getCacheHitRateColor(rate: number): string {
+  if (rate >= 60) return 'text-success'
+  if (rate >= 20) return 'text-warning'
+  if (rate > 0) return 'text-destructive'
+  return 'text-muted-foreground'
+}
+
 export function getResponseTimeColor(
   seconds: number,
   completionTokens: number
