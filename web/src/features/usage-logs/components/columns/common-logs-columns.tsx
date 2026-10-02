@@ -1,10 +1,3 @@
-function getCacheHitRateColor(rate: number): string {
-  if (rate >= 60) return textColorMap.success
-  if (rate >= 20) return textColorMap.warning
-  if (rate > 0) return textColorMap.danger
-  return textColorMap.neutral
-}
-
 /*
 Copyright (C) 2023-2026 QuantumNous
 
@@ -58,6 +51,13 @@ import { getUserAvatarFallback, getUserAvatarStyle } from '@/lib/avatar'
 import { formatBillingCurrencyFromUSD } from '@/lib/currency'
 import { formatLogQuota, formatTimestampToDate } from '@/lib/format'
 import { cn } from '@/lib/utils'
+
+function getCacheHitRateColor(rate: number): string {
+  if (rate >= 60) return 'text-success'
+  if (rate >= 20) return 'text-warning'
+  if (rate > 0) return 'text-destructive'
+  return 'text-muted-foreground'
+}
 import { useSystemConfigStore } from '@/stores/system-config-store'
 
 import { LOG_TYPE_ALL_VALUE } from '../../constants'
