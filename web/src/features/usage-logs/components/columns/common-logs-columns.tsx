@@ -758,7 +758,7 @@ export function useCommonLogsColumns(
                 <div className='flex items-center gap-1.5 font-mono text-[11px]'>
                   {cacheReadTokens > 0 && (
                     <span className={getCacheHitRateColor(hitRate)}>
-                      {hitRate.toFixed(2)}%
+                      {hitRate.toFixed(3)}%
                     </span>
                   )}
                   {cacheReadTokens > 0 && (
@@ -801,7 +801,7 @@ export function useCommonLogsColumns(
           return (
             <div className='flex flex-col gap-0.5 font-mono text-xs'>
               <span className={getCacheHitRateColor(hitRate)}>
-                {hitRate.toFixed(2)}%
+                {hitRate.toFixed(3)}%
               </span>
               {(cacheReadTokens > 0 || cacheWriteTokens > 0) && (
                 <span className='text-[10px] text-muted-foreground/60 tabular-nums'>
