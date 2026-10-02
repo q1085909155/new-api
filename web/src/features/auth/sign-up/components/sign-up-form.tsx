@@ -27,7 +27,6 @@ import type { z } from 'zod'
 import { Dialog } from '@/components/dialog'
 import { PasswordInput } from '@/components/password-input'
 import { Turnstile } from '@/components/turnstile'
-import { AliyunCaptcha } from '@/components/aliyun-captcha'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -46,7 +45,6 @@ import { registerFormSchema } from '@/features/auth/constants'
 import { useAuthRedirect } from '@/features/auth/hooks/use-auth-redirect'
 import { useEmailVerification } from '@/features/auth/hooks/use-email-verification'
 import { useTurnstile } from '@/features/auth/hooks/use-turnstile'
-import { useAliyunCaptcha } from '@/features/auth/hooks/use-aliyun-captcha'
 import {
   getAffiliateCode,
   saveAffiliateCode,
@@ -79,15 +77,6 @@ export function SignUpForm({
     setTurnstileToken,
     validateTurnstile,
   } = useTurnstile()
-  const {
-    isAliyunCaptchaEnabled,
-    aliyunSceneId,
-    aliyunRegion,
-    aliyunPrefix,
-    aliyunCaptchaToken,
-    setAliyunCaptchaToken,
-    validateAliyunCaptcha,
-  } = useAliyunCaptcha('register')
   const { redirectToLogin, handleLoginResult } = useAuthRedirect()
   const {
     isSending: isSendingCode,
@@ -120,7 +109,6 @@ export function SignUpForm({
     true
   const hasWeChatLogin = Boolean(status?.wechat_login)
   const turnstileReady = !isTurnstileEnabled || Boolean(turnstileToken)
-  const captchaReady = turnstileReady && (!isAliyunCaptchaEnabled || Boolean(aliyunCaptchaToken))
 
   const wechatQrCodeUrl = useMemo(() => {
     return (
@@ -180,7 +168,6 @@ export function SignUpForm({
         verification_code: verificationCode || undefined,
         aff_code: getAffiliateCode(),
         turnstile: turnstileToken,
-        aliyun_captcha: aliyunCaptchaToken,
       })
 
       if (res?.success) {
@@ -353,7 +340,7 @@ export function SignUpForm({
                   isSendingCode ||
                   isActive ||
                   !emailValue ||
-                  !captchaReady
+                  !turnstileReady
                 }
                 onClick={handleSendVerificationCode}
               >
@@ -374,18 +361,6 @@ export function SignUpForm({
           </div>
         )}
 
-        {/* 阿里云验证码 */}
-        {isAliyunCaptchaEnabled && (
-          <div className='mt-2'>
-            <AliyunCaptcha
-              sceneId={aliyunSceneId}
-              region={aliyunRegion}
-              prefix={aliyunPrefix}
-              onVerify={setAliyunCaptchaToken}
-            />
-          </div>
-        )}
-
         <LegalConsent
           status={status}
           checked={agreedToLegal}
@@ -400,7 +375,7 @@ export function SignUpForm({
           disabled={
             isLoading ||
             (requiresLegalConsent && !agreedToLegal) ||
-            !captchaReady
+            !turnstileReady
           }
         >
           {isLoading ? <Loader2 className='h-4 w-4 animate-spin' /> : null}

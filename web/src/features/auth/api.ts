@@ -50,7 +50,6 @@ import type {
 // User login with username and password
 export async function login(payload: LoginPayload): Promise<LoginResponse> {
   const turnstile = payload.turnstile ?? ''
-  const aliyunCaptcha = payload.aliyunCaptcha ?? ''
   try {
     let passwordFields:
       | { password: string }
@@ -65,7 +64,7 @@ export async function login(payload: LoginPayload): Promise<LoginResponse> {
       passwordFields = { password: payload.password }
     }
     const res = await api.post<LoginResponse>(
-      `/api/user/login?turnstile=${turnstile}&aliyun_captcha=${aliyunCaptcha}`,
+      `/api/user/login?turnstile=${turnstile}`,
       {
         username: payload.username,
         ...passwordFields,
@@ -247,7 +246,7 @@ export async function telegramLogin(
 // User registration
 export async function register(payload: RegisterPayload): Promise<ApiResponse> {
   const res = await api.post(`/api/user/register`, payload, {
-    params: { turnstile: payload.turnstile ?? '', aliyun_captcha: payload.aliyun_captcha ?? '' },
+    params: { turnstile: payload.turnstile ?? '' },
   })
   return res.data
 }
@@ -255,11 +254,10 @@ export async function register(payload: RegisterPayload): Promise<ApiResponse> {
 // Send email verification code
 export async function sendEmailVerification(
   email: string,
-  turnstile?: string,
-  aliyunCaptcha?: string
+  turnstile?: string
 ): Promise<ApiResponse> {
   const res = await api.get('/api/verification', {
-    params: { email, turnstile, aliyun_captcha: aliyunCaptcha },
+    params: { email, turnstile },
   })
   return res.data
 }

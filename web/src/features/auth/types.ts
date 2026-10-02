@@ -28,7 +28,6 @@ export interface LoginPayload {
   username: string
   password: string
   turnstile?: string
-  aliyunCaptcha?: string
   passwordEncryptionEnabled?: boolean
 }
 
@@ -44,19 +43,16 @@ export interface RegisterPayload {
   verification_code?: string
   aff_code?: string
   turnstile?: string
-  aliyun_captcha?: string
 }
 
 export interface PasswordResetPayload {
   email: string
   turnstile?: string
-  aliyun_captcha?: string
 }
 
 export interface EmailVerificationPayload {
   email: string
   turnstile?: string
-  aliyun_captcha?: string
 }
 
 export interface BindEmailPayload {
