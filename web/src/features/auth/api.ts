@@ -50,6 +50,7 @@ import type {
 // User login with username and password
 export async function login(payload: LoginPayload): Promise<LoginResponse> {
   const turnstile = payload.turnstile ?? ''
+  const aliyunCaptcha = payload.aliyunCaptcha ?? ''
   try {
     let passwordFields:
       | { password: string }

@@ -195,7 +195,7 @@ export function UserAuthForm({
         username: data.username,
         password: data.password,
         turnstile: submittedTurnstileToken,
-        submittedAliyunToken,
+        aliyunCaptcha: submittedAliyunToken,
         passwordEncryptionEnabled: passwordLoginEncryptionEnabled,
       })
 

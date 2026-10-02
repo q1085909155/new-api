@@ -28,6 +28,7 @@ export interface LoginPayload {
   username: string
   password: string
   turnstile?: string
+  aliyunCaptcha?: string
   passwordEncryptionEnabled?: boolean
 }
 
