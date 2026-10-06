@@ -16,7 +16,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { Gift, ExternalLink, Loader2, Receipt, WalletCards } from 'lucide-react'
+import {
+  Gift,
+  Loader2,
+  Receipt,
+  ShoppingCart,
+  WalletCards,
+} from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
@@ -548,15 +554,18 @@ export function RechargeFormCard({
           {topupLink && (
             <p className='text-muted-foreground text-xs'>
               {t('Need a redemption code?')}{' '}
-              <a
-                href={topupLink}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='inline-flex items-center gap-1 underline-offset-4 hover:underline'
+              <button
+                type='button'
+                onClick={() =>
+                  document
+                    .getElementById('wallet-shop')
+                    ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+                className='text-foreground inline-flex items-center gap-1 font-medium underline underline-offset-4 hover:opacity-80'
               >
-                {t('Get one here')}
-                <ExternalLink className='h-3 w-3' />
-              </a>
+                <ShoppingCart className='h-3 w-3' />
+                {t('Buy Redemption Code')}
+              </button>
             </p>
           )}
         </div>
